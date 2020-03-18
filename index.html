@@ -4,27 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Previsão para 4 dias</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="icon" href="./img/rain_light.png">
 </head>
 <body>
-    <select id="selectCity">
-        <option value="0">Selecione...</option>
-    </select>
-    <button id="btnSearch"
-        onclick="searchWeatherForecast('selectCity')">
-        Pesquisar
-    </button>
-    <table id="tableWeatherForecast">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Condição</th>
-                <th>Temp Máx.</th>
-                <th>Temp Mín.</th>
-                <th>IUV</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <script src="./index.js"></script>
+    <h2 class="text-center mt-5">Previsão do Tempo</h2>
+    <div class="col-md-8 offset-md-2 mt-5 col-12">
+        <div class="form-group">
+            <label for="selectCity">Cidade</label>
+            <div class="form-inline">
+                <select id="selectCity" 
+                        class="form-control col-md-9 col-12">
+                        <option value="0">Selecione...</option>
+                </select>
+                <button id="btnSearch"
+                    class="form-control col-md-3 col-12 btn btn-outline-primary"
+                    onclick="searchWeatherForecast('selectCity')">
+                    Pesquisar
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8 offset-2 mt-5">
+        <table id="tableWeatherForecast"
+            class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Condição</th>
+                    <th>Temp. Máx.</th>
+                    <th>Temp. Mín.</th>
+                    <th>IUV</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script src="./js/index.js"></script>
 </body>
 </html>

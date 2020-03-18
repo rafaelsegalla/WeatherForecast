@@ -1,33 +1,63 @@
 const urlListCity = "http://servicos.cptec.inpe.br/XML/listaCidades";
 const templateUrlWeather = "http://servicos.cptec.inpe.br/XML/cidade/{codigo_cidade}/previsao.xml";
-const weatherConditionsParameters = {
-    "method": "GET",
-    "url": "./weatherConditions.json",
-    "callback": (data) => {
-        console.log(data);
-    },
-    "json": true
+const weatherConditions = {
+    "ec": "Encoberto com Chuvas Isoladas",
+    "ci": "Chuvas Isoladas",
+    "c"	: "Chuva",
+    "in": "Instável",
+    "pp": "Poss. de Pancadas de Chuva",
+    "cm": "Chuva pela Manhã",
+    "cn": "Chuva a Noite",
+    "pt": "Pancadas de Chuva a Tarde",
+    "pm": "Pancadas de Chuva pela Manhã",
+    "np": "Nublado e Pancadas de Chuva",
+    "pc": "Pancadas de Chuva",
+    "pn": "Parcialmente Nublado",
+    "cv": "Chuvisco",
+    "ch": "Chuvoso",
+    "t": "Tempestade",
+    "ps": "Predomínio de Sol",
+    "e": "Encoberto",
+    "n": "Nublado",
+    "cl": "Céu Claro",
+    "nv": "Nevoeiro",
+    "g": "Geada",
+    "ne": "Neve",
+    "nd": "Não Definido",
+    "pnt": "Pancadas de Chuva a Noite",
+    "psc": "Possibilidade de Chuva",
+    "pcm": "Possibilidade de Chuva pela Manhã",
+    "pct": "Possibilidade de Chuva a Tarde",
+    "pcn": "Possibilidade de Chuva a Noite",
+    "npt": "Nublado com Pancadas a Tarde",
+    "npn": "Nublado com Pancadas a Noite",
+    "ncn": "Nublado com Poss. de Chuva a Noite",
+    "nct": "Nublado com Poss. de Chuva a Tarde",
+    "ncm": "Nubl. c/ Poss. de Chuva pela Manhã",
+    "npm": "Nublado com Pancadas pela Manhã",
+    "npp": "Nublado com Possibilidade de Chuva",
+    "vn": "Variação de Nebulosidade",
+    "ct": "Chuva a Tarde",
+    "ppn": "Poss. de Panc. de Chuva a Noite",
+    "ppt": "Poss. de Panc. de Chuva a Tarde",
+    "ppm": "Poss. de Panc. de Chuva pela Manhã"
 };
+
 const cityParameters = {
     "method": "GET",
     "url": urlListCity,
     "callback": buildCitySelect
 };
 
-ajax(weatherConditionsParameters);
 ajax(cityParameters);
 
-function ajax({method, url, callback = function e () {}, json = false}) {
+function ajax({method, url, callback = function e () {}}) {
     let xhttp = new XMLHttpRequest();
     xhttp.open(method, url, true);
     xhttp.send();
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4) {
-            if(json) {
-                callback(xhttp.responseText);
-            } else {
-                callback(xhttp.responseXML);
-            }
+            callback(xhttp.responseXML);
         }
     }
 }
@@ -83,7 +113,9 @@ function buildWeatherForecastTable(xml, tableSelector = "#tableWeatherForecast >
 
             //get forecast attributes
             let date = arrayForecast[forecast].getElementsByTagName("dia")[0].childNodes[0].nodeValue;
+            date = formatDate(date);
             let weather = arrayForecast[forecast].getElementsByTagName("tempo")[0].childNodes[0].nodeValue;
+            weather = weatherConditions[weather];
             let max = arrayForecast[forecast].getElementsByTagName("maxima")[0].childNodes[0].nodeValue;
             let min = arrayForecast[forecast].getElementsByTagName("minima")[0].childNodes[0].nodeValue;
             let iuv = arrayForecast[forecast].getElementsByTagName("iuv")[0].childNodes[0].nodeValue;
@@ -99,8 +131,8 @@ function buildWeatherForecastTable(xml, tableSelector = "#tableWeatherForecast >
             //creates nodetext for each attribute 
             let dateText = document.createTextNode(date);
             let weatherText = document.createTextNode(weather);
-            let maxText = document.createTextNode(max);
-            let minText = document.createTextNode(min);
+            let maxText = document.createTextNode(max + "°C");
+            let minText = document.createTextNode(min + "°C");
             let iuvText = document.createTextNode(iuv);
             
             //add text to your corresponding td
@@ -121,4 +153,9 @@ function buildWeatherForecastTable(xml, tableSelector = "#tableWeatherForecast >
             table.appendChild(tr);
         }
     }
+}
+
+function formatDate(date) {
+    let dateArray = date.split("-");
+    return dateArray[2] + "/" +  dateArray[1] + "/" + dateArray[0];
 }
