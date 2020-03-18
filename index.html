@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão para 4 dias</title>
+</head>
+<body>
+    <select id="selectCity">
+        <option value="0">Selecione...</option>
+    </select>
+    <button id="btnSearch"
+        onclick="searchWeatherForecast('selectCity')">
+        Pesquisar
+    </button>
+    <table id="tableWeatherForecast">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Condição</th>
+                <th>Temp Máx.</th>
+                <th>Temp Mín.</th>
+                <th>IUV</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="./index.js"></script>
+</body>
+</html>
